@@ -2,12 +2,14 @@ FROM public.ecr.aws/lambda/python:3.11
 
 RUN yum install -y git
 
-COPY .../models ./models
+ARG BUILD_DIR
 
-COPY requirements.txt ./
+COPY ${BUILD_DIR}/requirements.txt ./
 
 RUN pip install -r requirements.txt
 
-COPY . ./
+COPY ${BUILD_DIR}/ ./
+
+COPY ./src/models ./models
 
 CMD ["main.lambda_handler"]
